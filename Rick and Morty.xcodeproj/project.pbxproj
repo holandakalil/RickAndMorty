@@ -10,7 +10,6 @@
 		EA19BE8E2533F31800395E8C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19BE8D2533F31800395E8C /* AppDelegate.swift */; };
 		EA19BE902533F31800395E8C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19BE8F2533F31800395E8C /* SceneDelegate.swift */; };
 		EA19BE922533F31800395E8C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19BE912533F31800395E8C /* ViewController.swift */; };
-		EA19BE952533F31800395E8C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA19BE932533F31800395E8C /* Main.storyboard */; };
 		EA19BE972533F31A00395E8C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA19BE962533F31A00395E8C /* Assets.xcassets */; };
 		EA19BE9A2533F31A00395E8C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA19BE982533F31A00395E8C /* LaunchScreen.storyboard */; };
 		EA19BEA52533F31A00395E8C /* Rick_and_MortyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19BEA42533F31A00395E8C /* Rick_and_MortyTests.swift */; };
@@ -39,7 +38,6 @@
 		EA19BE8D2533F31800395E8C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA19BE8F2533F31800395E8C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		EA19BE912533F31800395E8C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		EA19BE942533F31800395E8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EA19BE962533F31A00395E8C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EA19BE992533F31A00395E8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EA19BE9B2533F31A00395E8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -80,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				EA19BE8C2533F31800395E8C /* Rick and Morty */,
+				EA19BE912533F31800395E8C /* ViewController.swift */,
 				EA19BEA32533F31A00395E8C /* Rick and MortyTests */,
 				EA19BEAE2533F31A00395E8C /* Rick and MortyUITests */,
 				EA19BE8B2533F31800395E8C /* Products */,
@@ -99,13 +98,9 @@
 		EA19BE8C2533F31800395E8C /* Rick and Morty */ = {
 			isa = PBXGroup;
 			children = (
-				EA19BE8D2533F31800395E8C /* AppDelegate.swift */,
-				EA19BE8F2533F31800395E8C /* SceneDelegate.swift */,
-				EA19BE912533F31800395E8C /* ViewController.swift */,
-				EA19BE932533F31800395E8C /* Main.storyboard */,
-				EA19BE962533F31A00395E8C /* Assets.xcassets */,
-				EA19BE982533F31A00395E8C /* LaunchScreen.storyboard */,
-				EA19BE9B2533F31A00395E8C /* Info.plist */,
+				EADBCB102533F7BF00E8D617 /* Core */,
+				EADBCB142533F7CE00E8D617 /* Service */,
+				EADBCB152533F7DD00E8D617 /* Model */,
 			);
 			path = "Rick and Morty";
 			sourceTree = "<group>";
@@ -126,6 +121,32 @@
 				EA19BEB12533F31A00395E8C /* Info.plist */,
 			);
 			path = "Rick and MortyUITests";
+			sourceTree = "<group>";
+		};
+		EADBCB102533F7BF00E8D617 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				EA19BE8D2533F31800395E8C /* AppDelegate.swift */,
+				EA19BE8F2533F31800395E8C /* SceneDelegate.swift */,
+				EA19BE962533F31A00395E8C /* Assets.xcassets */,
+				EA19BE982533F31A00395E8C /* LaunchScreen.storyboard */,
+				EA19BE9B2533F31A00395E8C /* Info.plist */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		EADBCB142533F7CE00E8D617 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		EADBCB152533F7DD00E8D617 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,7 +254,6 @@
 			files = (
 				EA19BE9A2533F31A00395E8C /* LaunchScreen.storyboard in Resources */,
 				EA19BE972533F31A00395E8C /* Assets.xcassets in Resources */,
-				EA19BE952533F31800395E8C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,14 +316,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		EA19BE932533F31800395E8C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EA19BE942533F31800395E8C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		EA19BE982533F31A00395E8C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
