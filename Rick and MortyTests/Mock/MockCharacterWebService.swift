@@ -13,7 +13,7 @@ class MockCharacterWebService: CharacterWebServiceProtocol {
     var hasCalledGetAllCharacters = false
     var hasCalledGetFavoredCharacters = false
     
-    func getAllCharacters(at page: Int, completionHandler: @escaping (AllCharactersResponseModel?, CharacterError?) -> Void) {
+    func getCharacters(at page: Int, completionHandler: @escaping (AllCharactersResponseModel?, CharacterError?) -> Void) {
         hasCalledGetAllCharacters = true
     }
     

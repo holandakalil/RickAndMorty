@@ -73,7 +73,7 @@ class CharacterWebServiceTests: XCTestCase {
         let expectation = self.expectation(description: "CharacterWebService getAllCharacters Response Expectation")
         
         // Act
-        sut.getAllCharacters(at: 1) { (allCharactersResponseModel, error) in
+        sut.getCharacters(at: 1) { (allCharactersResponseModel, error) in
             
             // Assert
             XCTAssertEqual(allCharactersResponseModel?.info.count, countTest, "Expected count to be the sabe as mock")
@@ -143,7 +143,7 @@ class CharacterWebServiceTests: XCTestCase {
         let expectation = self.expectation(description: "An empty request URL string expectation")
         
         // Act
-        sut.getAllCharacters { (allCharactersResponseModel, error) in
+        sut.getCharacters { (allCharactersResponseModel, error) in
             // Assert
             XCTAssertEqual(error, CharacterError.invalidRequestURLString, "getAllCharacters() did not return an expected error for an invalidRequestURLString error")
             XCTAssertNil(allCharactersResponseModel, "When an invalidRequestURLString takes place, the response model must be nil")
@@ -178,7 +178,7 @@ class CharacterWebServiceTests: XCTestCase {
         let expectation = self.expectation(description: "getAllCharacters() method expectation for a response that contains a different JSON structure")
         
         // Act
-        sut.getAllCharacters { (allCharactersResponseModel, error) in
+        sut.getCharacters { (allCharactersResponseModel, error) in
             // Assert
             XCTAssertNil(allCharactersResponseModel, "Unknown JSON, response model expected nil")
             XCTAssertEqual(error, CharacterError.invalidResponseModel, "getAllCharacters() did not return expected error")
@@ -214,11 +214,11 @@ class CharacterWebServiceTests: XCTestCase {
         MockURLProtocol.error = CharacterError.failedRequest(description: errorDescription)
         
         // Act
-        sut.getAllCharacters { (allCharactersResponseModel, error) in
+        sut.getCharacters { (allCharactersResponseModel, error) in
             // Assert
 //            XCTAssertEqual(error, CharacterError.failedRequest(description: errorDescription),
-//                           "getAllCharacters() did not return an expecter error for the Failed Request")
-            XCTAssertNotNil(error, "getAllCharacters() expected error not nil")
+//                           "getCharacters() did not return an expecter error for the Failed Request")
+            XCTAssertNotNil(error, "getCharacters() expected error not nil")
             expectation.fulfill()
         }
         

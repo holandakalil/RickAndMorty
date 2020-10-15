@@ -12,12 +12,14 @@ class CharacterWebService: CharacterWebServiceProtocol {
     private var urlSession: URLSession
     private var urlString: String
     
-    init(urlString: String, urlSession: URLSession = .shared) {
+    init(urlString: String = Constants.characterUrl,
+         urlSession: URLSession = .shared) {
         self.urlString = urlString
         self.urlSession = urlSession
     }
     
-    func getAllCharacters(at page: Int = 0, completionHandler: @escaping (AllCharactersResponseModel?, CharacterError?) -> Void) {
+    func getCharacters(at page: Int = 0,
+                          completionHandler: @escaping (AllCharactersResponseModel?, CharacterError?) -> Void) {
         var urlWithPage = urlString
         if page > 0 {
             urlWithPage += "?page=\(page)"
@@ -29,8 +31,6 @@ class CharacterWebService: CharacterWebServiceProtocol {
         }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.setValue("application/json", forHTTPHeaderField: "Accept")
         
         let dataTask = urlSession.dataTask(with: request) { (data, response, error) in
             
@@ -58,9 +58,6 @@ class CharacterWebService: CharacterWebServiceProtocol {
         }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        print("url: \(url)")
         
         let dataTask = urlSession.dataTask(with: request) { (data, response, error) in
             

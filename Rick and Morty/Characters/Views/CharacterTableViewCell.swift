@@ -36,8 +36,10 @@ class CharacterTableViewCell: UITableViewCell {
         characterImageView.clipsToBounds = true
         characterImageView.contentMode = .scaleAspectFill
         
+        let guide = self.safeAreaLayoutGuide
+        
         characterImageView.translatesAutoresizingMaskIntoConstraints = false
-        characterImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12).isActive = true
+        characterImageView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 12).isActive = true
         characterImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         characterImageView.heightAnchor.constraint(equalToConstant: Constants.listRowHeight - 20).isActive = true
         characterImageView.widthAnchor.constraint(equalToConstant: Constants.listRowHeight - 20).isActive = true

@@ -10,14 +10,40 @@ import Foundation
 class CharactersPresenter {
     
     private var webService: CharacterWebServiceProtocol
+    private var listCharactersView: AllCharactersViewProtocol
     
-    init(webService: CharacterWebServiceProtocol) {
+    private var page = 1
+    private var isLoading = false
+    
+    var characters: [CharacterModel] = []
+    var isLastPage = false
+    
+    init(webService: CharacterWebServiceProtocol = CharacterWebService(), listCharactersView: AllCharactersViewProtocol) {
         self.webService = webService
+        self.listCharactersView = listCharactersView
     }
     
-    func getAllCharacters(at page: Int = 0) {
-        webService.getAllCharacters(at: page) { (allCharacters, error) in
-            // TODO: -
+    func getAllCharacters() {
+        if isLoading {
+            return
+        }
+        
+        isLoading = true
+        webService.getCharacters(at: page) { (response, error) in
+            print("getPage: \(self.page)")
+            // TODO: - Handle error
+            if let allCharacters = response {
+                if allCharacters.results.count == 0 {
+                    self.isLastPage = true
+                } else {
+                    self.characters.append(contentsOf: allCharacters.results)
+                }
+                DispatchQueue.main.async {
+                    self.listCharactersView.updateUI()
+                }
+            }
+            self.isLoading = false
+            self.page += 1
         }
     }
     
@@ -27,3 +53,4 @@ class CharactersPresenter {
         }
     }
 }
+
