@@ -47,8 +47,8 @@ class CharactersPresenter {
         }
     }
     
-    func getFavoredCharacters(with charactersId: [Int]) {
-        webService.getFavoredCharacters(with: charactersId) { (characters, error) in
+    func getFavoritedCharacters(with charactersId: [Int]) {
+        webService.getFavoritedCharacters(with: charactersId) { (characters, error) in
             // TODO: -
         }
     }

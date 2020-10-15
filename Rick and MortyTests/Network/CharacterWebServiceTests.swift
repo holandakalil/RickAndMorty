@@ -86,7 +86,7 @@ class CharacterWebServiceTests: XCTestCase {
         self.wait(for: [expectation], timeout: 5)
     }
     
-    func testCharacterWebService_GetFavoredCharacters_WhenGivenSuccessfullResponse_ReturnsSuccess() {
+    func testCharacterWebService_GetFavoritedCharacters_WhenGivenSuccessfullResponse_ReturnsSuccess() {
         
         // Arrange
         let nameTest = "Name test"
@@ -121,10 +121,10 @@ class CharacterWebServiceTests: XCTestCase {
         
         MockURLProtocol.stubResponseData =  jsonString.data(using: .utf8)
         
-        let expectation = self.expectation(description: "CharacterWebService getFavoredCharacters Response Expectation")
+        let expectation = self.expectation(description: "CharacterWebService getFavoritedCharacters Response Expectation")
         
         // Act
-        sut.getFavoredCharacters(with: [1], completionHandler: { (characters, error) in
+        sut.getFavoritedCharacters(with: [1], completionHandler: { (characters, error) in
             
             // Assert
             XCTAssertEqual(characters?.first?.name, nameTest, "Expected name to be the sabe as mock")
@@ -153,15 +153,15 @@ class CharacterWebServiceTests: XCTestCase {
         self.wait(for: [expectation], timeout: 5)
     }
     
-    func testCharacterWebService_GetFavoredCharacters_WhenGivenBadUrl_ReturnsError() {
+    func testCharacterWebService_GetFavoritedCharacters_WhenGivenBadUrl_ReturnsError() {
         // Arrange
         sut = CharacterWebService(urlString: "")
         let expectation = self.expectation(description: "An empty request URL string expectation")
         
         // Act
-        sut.getFavoredCharacters(with: [1], completionHandler: { (characters, error) in
+        sut.getFavoritedCharacters(with: [1], completionHandler: { (characters, error) in
             // Assert
-            XCTAssertEqual(error, CharacterError.invalidRequestURLString, "getFavoredCharacters() did not return an expected error for an invalidRequestURLString error")
+            XCTAssertEqual(error, CharacterError.invalidRequestURLString, "getFavoritedCharacters() did not return an expected error for an invalidRequestURLString error")
             XCTAssertNil(characters, "When an invalidRequestURLString takes place, the response model must be nil")
             expectation.fulfill()
         })
@@ -188,7 +188,7 @@ class CharacterWebServiceTests: XCTestCase {
         self.wait(for: [expectation], timeout: 5)
     }
     
-    func testCharacterWebService_GetFavoredCharacters_WhenReceivedDifferentJSONResponse_ReturnsError() {
+    func testCharacterWebService_GetFavoritedCharacters_WhenReceivedDifferentJSONResponse_ReturnsError() {
         // Arrange
         let jsonString = "{\"path\":\"/characters\", \"error\":\"Internal Server Error\"}"
         MockURLProtocol.stubResponseData =  jsonString.data(using: .utf8)
@@ -196,10 +196,10 @@ class CharacterWebServiceTests: XCTestCase {
         let expectation = self.expectation(description: "getAllCharacters() method expectation for a response that contains a different JSON structure")
         
         // Act
-        sut.getFavoredCharacters(with: [1,3], completionHandler: { (characters, error) in
+        sut.getFavoritedCharacters(with: [1,3], completionHandler: { (characters, error) in
             // Assert
             XCTAssertNil(characters, "Unknown JSON, response model expected nil")
-            XCTAssertEqual(error, CharacterError.invalidResponseModel, "getFavoredCharacters() did not return expected error")
+            XCTAssertEqual(error, CharacterError.invalidResponseModel, "getFavoritedCharacters() did not return expected error")
             expectation.fulfill()
         })
         
@@ -225,34 +225,34 @@ class CharacterWebServiceTests: XCTestCase {
         self.wait(for: [expectation], timeout: 2)
     }
     
-    func testCharacterWebService_GetFavoredCharacters_WhenURLRequestFails_ReturnsErrorMessageDescription() {
+    func testCharacterWebService_GetFavoritedCharacters_WhenURLRequestFails_ReturnsErrorMessageDescription() {
         // Arrange
         let expectation = self.expectation(description: "A failed Request expectation")
         let errorDescription = "A localized description of an error"
         MockURLProtocol.error = CharacterError.failedRequest(description: errorDescription)
         
         // Act
-        sut.getFavoredCharacters(with: [1, 3, 20], completionHandler: { (characters, error) in
+        sut.getFavoritedCharacters(with: [1, 3, 20], completionHandler: { (characters, error) in
             // Assert
 //            XCTAssertEqual(error, CharacterError.failedRequest(description: errorDescription),
-//                           "getFavoredCharacters() did not return an expecter error for the Failed Request")
-            XCTAssertNotNil(error, "getFavoredCharacters() expected error not nil")
+//                           "getFavoritedCharacters() did not return an expecter error for the Failed Request")
+            XCTAssertNotNil(error, "getFavoritedCharacters() expected error not nil")
             expectation.fulfill()
         })
         
         self.wait(for: [expectation], timeout: 2)
     }
     
-    func testCharacterWebService_GetFavoredCharacters_Integration_ReturnsSuccess() {
+    func testCharacterWebService_GetFavoritedCharacters_Integration_ReturnsSuccess() {
         
         // Arrange
         sut = CharacterWebService(urlString: Constants.characterUrl)
         let charactersIds = [1,3,5,10]
         
-        let expectation = self.expectation(description: "CharacterWebService getFavoredCharacters Response Expectation")
+        let expectation = self.expectation(description: "CharacterWebService getFavoritedCharacters Response Expectation")
         
         // Act
-        sut.getFavoredCharacters(with: charactersIds, completionHandler: { (characters, error) in
+        sut.getFavoritedCharacters(with: charactersIds, completionHandler: { (characters, error) in
             
             // Assert
             XCTAssertEqual(characters?.count, charactersIds.count, "Expected to return \(charactersIds.count) results")

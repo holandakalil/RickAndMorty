@@ -50,7 +50,7 @@ class CharacterWebService: CharacterWebServiceProtocol {
         dataTask.resume()
     }
     
-    func getFavoredCharacters(with charactersId: [Int], completionHandler: @escaping ([CharacterModel]?, CharacterError?) -> Void) {
+    func getFavoritedCharacters(with charactersId: [Int], completionHandler: @escaping ([CharacterModel]?, CharacterError?) -> Void) {
         let charactersIdString = urlString.isEmpty ? "" : charactersId.map{String($0)}.joined(separator: ",")
         guard let url = URL(string: urlString + charactersIdString) else {
             completionHandler(nil, CharacterError.invalidRequestURLString)

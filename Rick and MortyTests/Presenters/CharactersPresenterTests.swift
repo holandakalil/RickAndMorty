@@ -34,12 +34,12 @@ class CharactersPresenterTests: XCTestCase {
         XCTAssertTrue(mockCharacterWebService.hasCalledGetAllCharacters, "getAllCharacters() method was not called")
     }
     
-    func testCharacterPresenter_DidCallGetFavoredCharacters() {
+    func testCharacterPresenter_DidCallGetFavoritedCharacters() {
         // Act
-        sut.getFavoredCharacters(with: [1])
+        sut.getFavoritedCharacters(with: [1])
         
         // Assert
-        XCTAssertTrue(mockCharacterWebService.hasCalledGetFavoredCharacters, "getFavoredCharacters() method was not called")
+        XCTAssertTrue(mockCharacterWebService.hasCalledGetFavoritedCharacters, "getFavoritedCharacters() method was not called")
     }
     
     func testCharacterPresenter_DidCallListCharacterViewMethods() {
