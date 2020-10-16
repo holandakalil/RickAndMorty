@@ -11,13 +11,8 @@ import Foundation
 class MockCharacterWebService: CharacterWebServiceProtocol {
     
     var hasCalledGetAllCharacters = false
-    var hasCalledGetFavoritedCharacters = false
     
     func getCharacters(at page: Int, completionHandler: @escaping (AllCharactersResponseModel?, CharacterError?) -> Void) {
         hasCalledGetAllCharacters = true
-    }
-    
-    func getFavoritedCharacters(with charactersId: [Int], completionHandler: @escaping ([CharacterModel]?, CharacterError?) -> Void) {
-        hasCalledGetFavoritedCharacters = true
     }
 }

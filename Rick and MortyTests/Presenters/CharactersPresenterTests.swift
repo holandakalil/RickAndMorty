@@ -12,11 +12,11 @@ class CharactersPresenterTests: XCTestCase {
     
     var sut: CharactersPresenter!
     var mockCharacterWebService: MockCharacterWebService!
-    var mockListCharacterView: MockListCharacterView!
+    var mockListCharacterView: MockAllCharacterView!
 
     override func setUp() {
         mockCharacterWebService = MockCharacterWebService()
-        mockListCharacterView = MockListCharacterView()
+        mockListCharacterView = MockAllCharacterView()
         sut = CharactersPresenter(webService: mockCharacterWebService, listCharactersView: mockListCharacterView)
     }
 
@@ -34,23 +34,19 @@ class CharactersPresenterTests: XCTestCase {
         XCTAssertTrue(mockCharacterWebService.hasCalledGetAllCharacters, "getAllCharacters() method was not called")
     }
     
-    func testCharacterPresenter_DidCallGetFavoritedCharacters() {
-        // Act
-        sut.getFavoritedCharacters(with: [1])
-        
-        // Assert
-        XCTAssertTrue(mockCharacterWebService.hasCalledGetFavoritedCharacters, "getFavoritedCharacters() method was not called")
-    }
-    
     func testCharacterPresenter_DidCallListCharacterViewMethods() {
         // Act
         mockListCharacterView.updateUI()
         mockListCharacterView.goToFavorites()
+        mockListCharacterView.goToDetails(of: CharacterModel(id: 0, name: "", status: "", species: "", type: "", gender: "", origin: .init(name: "", url: ""), location: .init(name: "", url: ""), image: "", episode: [], url: ""), image: UIImage())
         mockListCharacterView.favoriteCharacter(with: 0)
+        mockListCharacterView.unfavoriteCharacter(with: 0)
         
         // Assert
         XCTAssertTrue(mockListCharacterView.hasCalledUpdateUI, "updateUI() method was not called")
         XCTAssertTrue(mockListCharacterView.hasCalledGoToFavorites, "goToFavorites() method was not called")
+        XCTAssertTrue(mockListCharacterView.hasCalledGoToDetails, "goToDetails() method was not called")
         XCTAssertTrue(mockListCharacterView.hasCalledFavoriteCharacter, "favoriteCharacter() method was not called")
+        XCTAssertTrue(mockListCharacterView.hasCalledUnfavoriteCharacter, "unfavoriteCharacter() method was not called")
     }
 }
