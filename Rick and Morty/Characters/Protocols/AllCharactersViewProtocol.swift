@@ -1,14 +1,14 @@
 //
-//  GetAllCharactersProtocol.swift
+//  AllCharactersViewProtocol.swift
 //  Rick and Morty
 //
 //  Created by Kalil Holanda on 14/10/20.
 //
 
-import Foundation
+import UIKit
 
-protocol AllCharactersViewProtocol {
+protocol AllCharactersViewProtocol: FavoriteCharacterProtocol {
     func updateUI()
-    func favoriteCharacter(with characterId: Int)
     func goToFavorites()
+    func goToDetails(of character: CharacterModel, image: UIImage)
 }

@@ -9,26 +9,26 @@ import UIKit
 
 class AllCharactersViewController: UIViewController {
     
-    struct CellId {
-        static let characterCell = "CharacterCellId"
-    }
-    
     lazy var charactersPresenter = CharactersPresenter(listCharactersView: self)
-    var listTableView = UITableView()
+    private var listTableView = UITableView()
+    private var favoritesButton = UIBarButtonItem()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
         setupTableView()
         charactersPresenter.getAllCharacters()
-        charactersPresenter.getFavoredCharacters(with: [1,4,6])
-        // TODO: Setup favorites
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        favoritesButton.isEnabled = !Favorites.shared.getFavoritesId().isEmpty
+    }
+    
+    // MARK: - Setup UI
     func setupNavBar() {
         title = "Characters"
         
-        let favoritesButton = UIBarButtonItem(image: UIImage(systemName: "star.fill"),
+        favoritesButton = UIBarButtonItem(image: Constants.FavoriteImage.list,
                                               style: .plain,
                                               target: self,
                                               action: #selector(goToFavorites))
@@ -55,6 +55,7 @@ class AllCharactersViewController: UIViewController {
     }
 }
 
+// MARK: - TableView
 extension AllCharactersViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return charactersPresenter.characters.count
@@ -71,21 +72,55 @@ extension AllCharactersViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        //TODO: go to details
+        let cell = tableView.cellForRow(at: indexPath) as! CharacterTableViewCell
+        goToDetails(of: charactersPresenter.characters[indexPath.row], image: cell.characterImageView.image!)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let characterId = self.charactersPresenter.characters[indexPath.row].id
+        let isFavorited = Favorites.shared.isFavorite(characterId)
+        
+        let favAction = UIContextualAction(style: .normal, title: "") { (_, _, completionHandler) in
+            isFavorited ? self.unfavoriteCharacter(with: characterId) : self.favoriteCharacter(with: characterId)
+            completionHandler(true)
+        }
+        
+        favAction.backgroundColor = .purple
+        favAction.image = isFavorited ? Constants.FavoriteImage.favorited : Constants.FavoriteImage.unfavorited
+        
+        return UISwipeActionsConfiguration(actions: [favAction])
     }
 }
 
+// MARK: - AllCharactersViewProtocol
 extension AllCharactersViewController: AllCharactersViewProtocol {
+    
     func updateUI() {
         self.listTableView.tableFooterView = charactersPresenter.isLastPage ? UIView() : LoadingTableViewFooter(frame: listTableView.frame)
         self.listTableView.reloadData()
     }
     
     @objc func goToFavorites() {
-        // TODO
+        let favoritesViewController = FavoritesCharactersViewController()
+        navigationController?.pushViewController(favoritesViewController, animated: true)
+    }
+    
+    func goToDetails(of character: CharacterModel, image: UIImage) {
+        let detailsViewController = CharacterDetailViewController()
+        detailsViewController.character = character
+        detailsViewController.characterImage = image
+        navigationController?.pushViewController(detailsViewController, animated: true)
     }
     
     func favoriteCharacter(with characterId: Int) {
-        // TODO
+        Favorites.shared.addFavorite(with: characterId)
+        favoritesButton.isEnabled = true
+    }
+    
+    func unfavoriteCharacter(with characterId: Int) {
+        Favorites.shared.removeFavorite(with: characterId)
+        if Favorites.shared.getFavoritesId().isEmpty {
+            favoritesButton.isEnabled = false
+        }
     }
 }

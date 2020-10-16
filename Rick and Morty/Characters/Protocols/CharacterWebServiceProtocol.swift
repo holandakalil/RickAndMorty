@@ -9,5 +9,4 @@ import Foundation
 
 protocol CharacterWebServiceProtocol {
     func getCharacters(at page: Int, completionHandler: @escaping (AllCharactersResponseModel?, CharacterError?) -> Void)
-    func getFavoritedCharacters(with charactersId: [Int], completionHandler: @escaping ([CharacterModel]?, CharacterError?) -> Void)
 }

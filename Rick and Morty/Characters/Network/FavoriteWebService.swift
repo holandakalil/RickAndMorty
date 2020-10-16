@@ -1,13 +1,13 @@
 //
-//  CharacterWebService.swift
+//  FavoriteWebService.swift
 //  Rick and Morty
 //
-//  Created by Kalil Holanda on 12/10/20.
+//  Created by Kalil Holanda on 15/10/20.
 //
 
 import Foundation
 
-class CharacterWebService: CharacterWebServiceProtocol {
+class FavoriteWebService: FavoritesWebServiceProtocol {
     
     private var urlSession: URLSession
     private var urlString: String
@@ -18,14 +18,9 @@ class CharacterWebService: CharacterWebServiceProtocol {
         self.urlSession = urlSession
     }
     
-    func getCharacters(at page: Int = 0,
-                          completionHandler: @escaping (AllCharactersResponseModel?, CharacterError?) -> Void) {
-        var urlWithPage = urlString
-        if page > 0 {
-            urlWithPage += "?page=\(page)"
-        }
-        
-        guard let url = URL(string: urlWithPage) else {
+    func getFavoritedCharacters(with charactersId: [Int], completionHandler: @escaping ([CharacterModel]?, CharacterError?) -> Void) {
+        let charactersIdString = urlString.isEmpty ? "" : charactersId.map{String($0)}.joined(separator: ",")
+        guard let url = URL(string: urlString + charactersIdString) else {
             completionHandler(nil, CharacterError.invalidRequestURLString)
             return
         }
@@ -40,8 +35,11 @@ class CharacterWebService: CharacterWebServiceProtocol {
             }
             
             if let data = data,
-               let response = try? JSONDecoder().decode(AllCharactersResponseModel.self, from: data) {
+               let response = try? JSONDecoder().decode([CharacterModel].self, from: data) {
                 completionHandler(response, nil)
+            } else if let data = data,
+                      let response = try? JSONDecoder().decode(CharacterModel.self, from: data) {
+                completionHandler([response], nil)
             } else {
                 completionHandler(nil, CharacterError.invalidResponseModel)
             }

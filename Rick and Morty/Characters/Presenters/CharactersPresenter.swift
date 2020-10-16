@@ -23,6 +23,7 @@ class CharactersPresenter {
         self.listCharactersView = listCharactersView
     }
     
+    // MARK: - WebService
     func getAllCharacters() {
         if isLoading {
             return
@@ -30,7 +31,6 @@ class CharactersPresenter {
         
         isLoading = true
         webService.getCharacters(at: page) { (response, error) in
-            print("getPage: \(self.page)")
             // TODO: - Handle error
             if let allCharacters = response {
                 if allCharacters.results.count == 0 {
@@ -44,12 +44,6 @@ class CharactersPresenter {
             }
             self.isLoading = false
             self.page += 1
-        }
-    }
-    
-    func getFavoritedCharacters(with charactersId: [Int]) {
-        webService.getFavoritedCharacters(with: charactersId) { (characters, error) in
-            // TODO: -
         }
     }
 }
