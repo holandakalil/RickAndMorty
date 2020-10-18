@@ -14,8 +14,10 @@ class FavoritesCharactersViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        listTableView.delegate = self
+        listTableView.dataSource = self
         setupNavBar()
-        setupTableView()
+        applyViewCode()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -26,30 +28,32 @@ class FavoritesCharactersViewController: UIViewController {
         }
     }
     
-    // MARK: - Setup UI
+    // MARK: - Setup NavBar
     func setupNavBar() {
         title = "Favorites"
         navigationController?.navigationBar.tintColor = .purple
     }
-    
-    func setupTableView() {
+}
+
+// MARK: - ViewCode
+extension FavoritesCharactersViewController: ViewCodeProtocol {
+    func buildHierarchy() {
         view.addSubview(listTableView)
-        
-        self.listTableView.tableFooterView = LoadingTableViewFooter(frame: listTableView.frame)
-        
-        listTableView.delegate = self
-        listTableView.dataSource = self
-        
-        listTableView.separatorStyle = .none
-        
-        listTableView.rowHeight = Constants.listRowHeight
-        listTableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CellId.characterCell)
-        
+    }
+    
+    func setupConstraints() {
         listTableView.translatesAutoresizingMaskIntoConstraints = false
         listTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         listTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         listTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         listTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+    
+    func configureViews() {
+        self.listTableView.tableFooterView = LoadingTableViewFooter(frame: listTableView.frame)
+        listTableView.separatorStyle = .none
+        listTableView.rowHeight = Constants.listRowHeight
+        listTableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CellId.characterCell)
     }
 }
 

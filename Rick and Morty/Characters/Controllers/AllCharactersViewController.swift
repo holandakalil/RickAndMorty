@@ -15,8 +15,10 @@ class AllCharactersViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        listTableView.delegate = self
+        listTableView.dataSource = self
         setupNavBar()
-        setupTableView()
+        applyViewCode()
         charactersPresenter.getAllCharacters()
     }
     
@@ -24,10 +26,9 @@ class AllCharactersViewController: UIViewController {
         favoritesButton.isEnabled = !Favorites.shared.getFavoritesId().isEmpty
     }
     
-    // MARK: - Setup UI
+    // MARK: - Setup NavBar
     func setupNavBar() {
         title = "Characters"
-        
         favoritesButton = UIBarButtonItem(image: Constants.FavoriteImage.list,
                                               style: .plain,
                                               target: self,
@@ -35,23 +36,26 @@ class AllCharactersViewController: UIViewController {
         favoritesButton.tintColor = .purple
         navigationItem.rightBarButtonItem = favoritesButton
     }
-    
-    func setupTableView() {
+}
+
+// MARK: - ViewCode
+extension AllCharactersViewController: ViewCodeProtocol {
+    func buildHierarchy() {
         view.addSubview(listTableView)
-        
-        listTableView.delegate = self
-        listTableView.dataSource = self
-        
-        listTableView.separatorStyle = .none
-        
-        listTableView.rowHeight = Constants.listRowHeight
-        listTableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CellId.characterCell)
-        
+    }
+    
+    func setupConstraints() {
         listTableView.translatesAutoresizingMaskIntoConstraints = false
         listTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         listTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         listTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         listTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+    
+    func configureViews() {
+        listTableView.separatorStyle = .none
+        listTableView.rowHeight = Constants.listRowHeight
+        listTableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CellId.characterCell)
     }
 }
 
@@ -73,7 +77,7 @@ extension AllCharactersViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let cell = tableView.cellForRow(at: indexPath) as! CharacterTableViewCell
-        goToDetails(of: charactersPresenter.characters[indexPath.row], image: cell.characterImageView.image!)
+        goToDetails(of: charactersPresenter.characters[indexPath.row], image: cell.characterImageView.image)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -94,7 +98,6 @@ extension AllCharactersViewController: UITableViewDelegate, UITableViewDataSourc
 
 // MARK: - AllCharactersViewProtocol
 extension AllCharactersViewController: AllCharactersViewProtocol {
-    
     func updateUI() {
         self.listTableView.tableFooterView = charactersPresenter.isLastPage ? UIView() : LoadingTableViewFooter(frame: listTableView.frame)
         self.listTableView.reloadData()
@@ -105,7 +108,7 @@ extension AllCharactersViewController: AllCharactersViewProtocol {
         navigationController?.pushViewController(favoritesViewController, animated: true)
     }
     
-    func goToDetails(of character: CharacterModel, image: UIImage) {
+    func goToDetails(of character: CharacterModel, image: UIImage?) {
         let detailsViewController = CharacterDetailViewController()
         detailsViewController.character = character
         detailsViewController.characterImage = image

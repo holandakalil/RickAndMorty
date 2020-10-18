@@ -27,7 +27,6 @@ class CharacterDetailViewController: UIViewController {
     private lazy var charNameLabel: UILabel = {
         let label = UILabel()
         label.text = character?.name
-        label.textColor = .darkGray
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
         label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
@@ -38,7 +37,6 @@ class CharacterDetailViewController: UIViewController {
     private lazy var charOriginLabel: UILabel = {
         let label = UILabel()
         label.text = character?.origin.name
-        label.textColor = .darkGray
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
         label.font = UIFont.preferredFont(forTextStyle: .title2)
@@ -49,7 +47,6 @@ class CharacterDetailViewController: UIViewController {
     private lazy var charDescriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "\(character!.species), \(character!.gender) \(character!.type), location: \(character!.location.name), status: \(character!.status)"
-        label.textColor = .black
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
         label.font = UIFont.preferredFont(forTextStyle: .body)
@@ -70,22 +67,11 @@ class CharacterDetailViewController: UIViewController {
         setupUI()
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        view.updateConstraintsIfNeeded() // TODO
-    }
-    
     // MARK: - Setup UI
     func setupUI() {
         view.backgroundColor = UIColor(named: "VCBackgroundColor")
         setupNavBar()
-        
-        view.addSubview(charImage)
-        view.addSubview(charNameLabel)
-        view.addSubview(charOriginLabel)
-        view.addSubview(charDescriptionLabel)
-        
-        setupViews()
+        applyViewCode()
     }
     
     func setupNavBar() {
@@ -104,23 +90,48 @@ class CharacterDetailViewController: UIViewController {
         navigationItem.rightBarButtonItem = favoriteButton
     }
     
-    func setupViews() {
+    // MARK: - Update layout with orientation
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        DispatchQueue.main.async {
+            self.setupConstraints()
+        }
+    }
+    
+    // MARK: - Bar button Action
+    @objc func favoriteButtonAction() {
+        guard let characterId = character?.id else { return }
+        let isFavorited = Favorites.shared.isFavorite(characterId)
+        isFavorited ? unfavoriteCharacter(with: characterId) : favoriteCharacter(with: characterId)
+    }
+}
+
+extension CharacterDetailViewController: ViewCodeProtocol {
+    func buildHierarchy() {
+        view.addSubview(charImage)
+        view.addSubview(charNameLabel)
+        view.addSubview(charOriginLabel)
+        view.addSubview(charDescriptionLabel)
+    }
+    
+    func setupConstraints() {
         setupCharImage()
         setupNameLabel()
         setupOriginLabel()
         setupDescriptionLabel()
     }
     
+    func configureViews() { }
+    
     func setupCharImage(isLandscape: Bool = false) {
+        // Making image's old contraints inactive before reapplying them in case of device orientation change
         for c in charImage.constraints {
             c.isActive = false
         }
         
-        let charImageSideConstant: CGFloat = view.frame.height / 4
+        let charImageSideConstant: CGFloat = view.frame.height / (isLandscape ? 4 : 3)
         charImage.widthAnchor.constraint(equalToConstant: charImageSideConstant).isActive = true
         charImage.heightAnchor.constraint(equalToConstant: charImageSideConstant).isActive = true
-
-        charImage.topAnchor.constraint(equalTo: guide.topAnchor, constant:  15).isActive = true
+        charImage.topAnchor.constraint(equalTo: guide.topAnchor, constant: 15).isActive = true
         charImage.centerXAnchor.constraint(equalTo: guide.centerXAnchor).isActive = true
     }
     
@@ -143,20 +154,6 @@ class CharacterDetailViewController: UIViewController {
         charDescriptionLabel.topAnchor.constraint(equalTo: charOriginLabel.bottomAnchor, constant: 15).isActive = true
         charDescriptionLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 12).isActive = true
         charDescriptionLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -12).isActive = true
-    }
-    
-    // MARK: - Update layout with orientation
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        DispatchQueue.main.async {
-            self.setupViews()
-        }
-    }
-    
-    // MARK: - Bar button Action
-    @objc func favoriteButtonAction() {
-        guard let characterId = character?.id else { return }
-        let isFavorited = Favorites.shared.isFavorite(characterId)
-        isFavorited ? unfavoriteCharacter(with: characterId) : favoriteCharacter(with: characterId)
     }
 }
 
