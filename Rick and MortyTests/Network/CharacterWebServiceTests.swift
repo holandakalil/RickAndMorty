@@ -126,14 +126,13 @@ class CharacterWebServiceTests: XCTestCase {
     func testCharacterWebService_GetAllCharacters_WhenURLRequestFails_ReturnsErrorMessageDescription() {
         // Arrange
         let expectation = self.expectation(description: "A failed Request expectation")
-        let errorDescription = "A localized description of an error"
-        MockURLProtocol.error = CharacterError.failedRequest(description: errorDescription)
+        MockURLProtocol.error = CharacterError.failedRequest
         
         // Act
         sut.getCharacters { (allCharactersResponseModel, error) in
             // Assert
-//            XCTAssertEqual(error, CharacterError.failedRequest(description: errorDescription),
-//                           "getCharacters() did not return an expecter error for the Failed Request")
+            XCTAssertEqual(error, CharacterError.failedRequest,
+                           "getCharacters() did not return an expecter error for the Failed Request")
             XCTAssertNotNil(error, "getCharacters() expected error not nil")
             expectation.fulfill()
         }

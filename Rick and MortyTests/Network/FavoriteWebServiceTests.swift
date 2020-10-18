@@ -112,19 +112,55 @@ class FavoriteWebServiceTests: XCTestCase {
     func testCharacterWebService_GetFavoritedCharacters_WhenURLRequestFails_ReturnsErrorMessageDescription() {
         // Arrange
         let expectation = self.expectation(description: "A failed Request expectation")
-        let errorDescription = "A localized description of an error"
-        MockURLProtocol.error = CharacterError.failedRequest(description: errorDescription)
+        MockURLProtocol.error = .failedRequest
         
         // Act
         sut.getFavoritedCharacters(with: [1, 3, 20], completionHandler: { (characters, error) in
             // Assert
-            //            XCTAssertEqual(error, CharacterError.failedRequest(description: errorDescription),
-            //                           "getFavoritedCharacters() did not return an expecter error for the Failed Request")
+            XCTAssertEqual(error, CharacterError.failedRequest, "Expected failedRequest error")
             XCTAssertNotNil(error, "getFavoritedCharacters() expected error not nil")
             expectation.fulfill()
         })
         
         self.wait(for: [expectation], timeout: 2)
+    }
+    
+    func testCharacterWebService_GetMultipleFavoritedCharacters_Integration_ReturnsSuccess() {
+        
+        // Arrange
+        sut = FavoriteWebService(urlString: Constants.characterUrl)
+        let charactersIds = [1,3,5,10]
+        let expectation = self.expectation(description: "CharacterWebService getFavoritedCharacters Response Expectation")
+        
+        // Act
+        sut.getFavoritedCharacters(with: charactersIds, completionHandler: { (characters, error) in
+            
+            // Assert
+            XCTAssertEqual(characters?.count, charactersIds.count, "Expected to return \(charactersIds.count) results")
+            expectation.fulfill()
+            
+        })
+        
+        self.wait(for: [expectation], timeout: 5)
+    }
+    
+    func testCharacterWebService_GetSingleFavoritedCharacters_Integration_ReturnsSuccess() {
+        
+        // Arrange
+        sut = FavoriteWebService(urlString: Constants.characterUrl)
+        let charactersIds = [100]
+        let expectation = self.expectation(description: "CharacterWebService getFavoritedCharacters Response Expectation")
+        
+        // Act
+        sut.getFavoritedCharacters(with: charactersIds, completionHandler: { (characters, error) in
+            
+            // Assert
+            XCTAssertEqual(characters?.count, charactersIds.count, "Expected to return \(charactersIds.count) results")
+            expectation.fulfill()
+            
+        })
+        
+        self.wait(for: [expectation], timeout: 5)
     }
     
     func testCharacterWebService_GetFavoritedCharacters_Integration_ReturnsSuccess() {

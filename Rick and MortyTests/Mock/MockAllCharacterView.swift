@@ -6,25 +6,37 @@
 //
 
 import UIKit
+import XCTest
 @testable import Rick_and_Morty
 
 class MockAllCharacterView: AllCharactersViewProtocol {
     
-    var hasCalledUpdateUI = false
+    var expectation: XCTestExpectation?
+    var errorMessage: String?
+    
+    var hasCalledSuccessfulGetList = false
+    var hasCalledError = false
     var hasCalledGoToFavorites = false
     var hasCalledGoToDetails = false
     var hasCalledFavoriteCharacter = false
     var hasCalledUnfavoriteCharacter = false
     
-    func updateUI() {
-        hasCalledUpdateUI = true
+    func successfulGetList() {
+        hasCalledSuccessfulGetList = true
+        expectation?.fulfill()
     }
     
-    func goToFavorites() {
+    func errorGetList(withMessage message: String) {
+        hasCalledError = true
+        errorMessage = message
+        expectation?.fulfill()
+    }
+    
+    func goToFavoritesCharacterViewController() {
         hasCalledGoToFavorites = true
     }
     
-    func goToDetails(of character: CharacterModel, image: UIImage) {
+    func goToDetails(of character: CharacterModel, image: UIImage?) {
         hasCalledGoToDetails = true
     }
     

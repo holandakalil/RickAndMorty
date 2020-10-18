@@ -34,19 +34,32 @@ class CharactersPresenterTests: XCTestCase {
         XCTAssertTrue(mockCharacterWebService.hasCalledGetAllCharacters, "getAllCharacters() method was not called")
     }
     
-    func testCharacterPresenter_DidCallListCharacterViewMethods() {
+    func testCharacterPresenter_CallSuccessful_getAllCharacters() {
+        // Arrange
+        let myExpectation = self.expectation(description: "expected successfulGetList() to be called")
+        mockListCharacterView.expectation = myExpectation
+        
         // Act
-        mockListCharacterView.updateUI()
-        mockListCharacterView.goToFavorites()
-        mockListCharacterView.goToDetails(of: CharacterModel(id: 0, name: "", status: "", species: "", type: "", gender: "", origin: .init(name: "", url: ""), location: .init(name: "", url: ""), image: "", episode: [], url: ""), image: UIImage())
-        mockListCharacterView.favoriteCharacter(with: 0)
-        mockListCharacterView.unfavoriteCharacter(with: 0)
+        sut.getAllCharacters()
+        self.wait(for: [myExpectation], timeout: 5)
         
         // Assert
-        XCTAssertTrue(mockListCharacterView.hasCalledUpdateUI, "updateUI() method was not called")
-        XCTAssertTrue(mockListCharacterView.hasCalledGoToFavorites, "goToFavorites() method was not called")
-        XCTAssertTrue(mockListCharacterView.hasCalledGoToDetails, "goToDetails() method was not called")
-        XCTAssertTrue(mockListCharacterView.hasCalledFavoriteCharacter, "favoriteCharacter() method was not called")
-        XCTAssertTrue(mockListCharacterView.hasCalledUnfavoriteCharacter, "unfavoriteCharacter() method was not called")
+        XCTAssertTrue(mockListCharacterView.hasCalledSuccessfulGetList, "hasCalledSuccessfulGetList() method was not called")
+        XCTAssertFalse(mockListCharacterView.hasCalledError, "should not call errorGetList()")
+    }
+    
+    func testCharacterPresenter_CallunSuccessful_getAllCharacters() {
+        // Arrange
+        let myExpectation = self.expectation(description: "expected errorGetList() to be called")
+        mockListCharacterView.expectation = myExpectation
+        mockCharacterWebService.shouldReturnError = true
+        
+        // Act
+        sut.getAllCharacters()
+        self.wait(for: [myExpectation], timeout: 5)
+        
+        // Assert
+        XCTAssertTrue(mockListCharacterView.hasCalledError, "errorGetList() method was not called")
+        XCTAssertFalse(mockListCharacterView.hasCalledSuccessfulGetList, "should not call hasCalledSuccessfulGetList()")
     }
 }

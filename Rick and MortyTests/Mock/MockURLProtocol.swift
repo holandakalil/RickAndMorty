@@ -6,11 +6,12 @@
 //
 
 import Foundation
+@testable import Rick_and_Morty
 
 class MockURLProtocol: URLProtocol {
     
     static var stubResponseData: Data?
-    static var error: Error?
+    static var error: CharacterError?
     
     override class func canInit(with request: URLRequest) -> Bool {
         return true
