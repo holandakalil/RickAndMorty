@@ -25,7 +25,7 @@ class FavoriteWebServiceTests: XCTestCase {
         MockURLProtocol.error = nil
     }
     
-    func testCharacterWebService_GetFavoritedCharacters_WhenGivenSuccessfullResponse_ReturnsSuccess() {
+    func testFavoriteWebService_GetFavoritedCharacters_WhenGivenSuccessfullResponse_ReturnsSuccess() {
         
         // Arrange
         let nameTest = "Name test"
@@ -68,6 +68,7 @@ class FavoriteWebServiceTests: XCTestCase {
             // Assert
             XCTAssertEqual(characters?.first?.name, nameTest, "Expected name to be the sabe as mock")
             XCTAssertEqual(characters?.first?.location.name, locationNameTest, "Expected location name to be the sabe as mock")
+            XCTAssertNil(error, "Expected not to return error")
             expectation.fulfill()
             
         })
@@ -75,7 +76,7 @@ class FavoriteWebServiceTests: XCTestCase {
         self.wait(for: [expectation], timeout: 5)
     }
     
-    func testCharacterWebService_GetFavoritedCharacters_WhenGivenBadUrl_ReturnsError() {
+    func testFavoriteWebService_GetFavoritedCharacters_WhenGivenBadUrl_ReturnsError() {
         // Arrange
         sut = FavoriteWebService(urlString: "")
         let expectation = self.expectation(description: "An empty request URL string expectation")
@@ -91,7 +92,7 @@ class FavoriteWebServiceTests: XCTestCase {
         self.wait(for: [expectation], timeout: 5)
     }
     
-    func testCharacterWebService_GetFavoritedCharacters_WhenReceivedDifferentJSONResponse_ReturnsError() {
+    func testFavoriteWebService_GetFavoritedCharacters_WhenReceivedDifferentJSONResponse_ReturnsError() {
         // Arrange
         let jsonString = "{\"path\":\"/characters\", \"error\":\"Internal Server Error\"}"
         MockURLProtocol.stubResponseData =  jsonString.data(using: .utf8)
@@ -109,15 +110,17 @@ class FavoriteWebServiceTests: XCTestCase {
         self.wait(for: [expectation], timeout: 5)
     }
     
-    func testCharacterWebService_GetFavoritedCharacters_WhenURLRequestFails_ReturnsErrorMessageDescription() {
+    func testFavoriteWebService_GetFavoritedCharacters_WhenURLRequestFails_ReturnsErrorMessageDescription() {
         // Arrange
         let expectation = self.expectation(description: "A failed Request expectation")
-        MockURLProtocol.error = .failedRequest
+        let errorToSend = CharacterError.failedRequest
+        MockURLProtocol.error = errorToSend
         
         // Act
         sut.getFavoritedCharacters(with: [1, 3, 20], completionHandler: { (characters, error) in
             // Assert
-            XCTAssertEqual(error, CharacterError.failedRequest, "Expected failedRequest error")
+            XCTAssertNil(characters, "Expected characteres to return nil")
+            XCTAssertEqual(error, errorToSend, "Expected failedRequest error")
             XCTAssertNotNil(error, "getFavoritedCharacters() expected error not nil")
             expectation.fulfill()
         })
@@ -125,7 +128,7 @@ class FavoriteWebServiceTests: XCTestCase {
         self.wait(for: [expectation], timeout: 2)
     }
     
-    func testCharacterWebService_GetMultipleFavoritedCharacters_Integration_ReturnsSuccess() {
+    func testFavoriteWebService_GetMultipleFavoritedCharacters_Integration_ReturnsSuccess() {
         
         // Arrange
         sut = FavoriteWebService(urlString: Constants.characterUrl)
@@ -137,6 +140,7 @@ class FavoriteWebServiceTests: XCTestCase {
             
             // Assert
             XCTAssertEqual(characters?.count, charactersIds.count, "Expected to return \(charactersIds.count) results")
+            XCTAssertNil(error, "Expected not to return error")
             expectation.fulfill()
             
         })
@@ -144,7 +148,7 @@ class FavoriteWebServiceTests: XCTestCase {
         self.wait(for: [expectation], timeout: 5)
     }
     
-    func testCharacterWebService_GetSingleFavoritedCharacters_Integration_ReturnsSuccess() {
+    func testFavoriteWebService_GetSingleFavoritedCharacters_Integration_ReturnsSuccess() {
         
         // Arrange
         sut = FavoriteWebService(urlString: Constants.characterUrl)
@@ -156,32 +160,11 @@ class FavoriteWebServiceTests: XCTestCase {
             
             // Assert
             XCTAssertEqual(characters?.count, charactersIds.count, "Expected to return \(charactersIds.count) results")
+            XCTAssertNil(error, "Expected not to return error")
             expectation.fulfill()
             
         })
         
         self.wait(for: [expectation], timeout: 5)
     }
-    
-    func testCharacterWebService_GetFavoritedCharacters_Integration_ReturnsSuccess() {
-        
-        // Arrange
-        sut = FavoriteWebService(urlString: Constants.characterUrl)
-        let charactersIds = [1,3,5,10]
-        
-        let expectation = self.expectation(description: "CharacterWebService getFavoritedCharacters Response Expectation")
-        
-        // Act
-        sut.getFavoritedCharacters(with: charactersIds, completionHandler: { (characters, error) in
-            
-            // Assert
-            XCTAssertEqual(characters?.count, charactersIds.count, "Expected to return \(charactersIds.count) results")
-            expectation.fulfill()
-            
-        })
-        
-        self.wait(for: [expectation], timeout: 5)
-    }
-    
-    
 }
