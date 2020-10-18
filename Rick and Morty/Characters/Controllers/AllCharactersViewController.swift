@@ -32,7 +32,7 @@ class AllCharactersViewController: UIViewController {
         favoritesButton = UIBarButtonItem(image: Constants.FavoriteImage.list,
                                               style: .plain,
                                               target: self,
-                                              action: #selector(goToFavorites))
+                                              action: #selector(goToFavoritesCharacterViewController))
         favoritesButton.tintColor = .purple
         navigationItem.rightBarButtonItem = favoritesButton
     }
@@ -98,12 +98,18 @@ extension AllCharactersViewController: UITableViewDelegate, UITableViewDataSourc
 
 // MARK: - AllCharactersViewProtocol
 extension AllCharactersViewController: AllCharactersViewProtocol {
-    func updateUI() {
+    func successfulGetList() {
         self.listTableView.tableFooterView = charactersPresenter.isLastPage ? UIView() : LoadingTableViewFooter(frame: listTableView.frame)
         self.listTableView.reloadData()
     }
     
-    @objc func goToFavorites() {
+    func errorGetList(withMessage message: String) {
+        AlertService.alert(in: self, title: "Ops!", message: message, actionTitle: "Tentar novamente") {
+            self.charactersPresenter.getAllCharacters()
+        }
+    }
+    
+    @objc func goToFavoritesCharacterViewController() {
         let favoritesViewController = FavoritesCharactersViewController()
         navigationController?.pushViewController(favoritesViewController, animated: true)
     }

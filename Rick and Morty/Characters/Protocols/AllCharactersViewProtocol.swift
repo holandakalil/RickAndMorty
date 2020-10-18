@@ -5,10 +5,8 @@
 //  Created by Kalil Holanda on 14/10/20.
 //
 
-import UIKit
+import Foundation
 
-protocol AllCharactersViewProtocol: FavoriteCharacterProtocol {
-    func updateUI()
-    func goToFavorites()
-    func goToDetails(of character: CharacterModel, image: UIImage)
+protocol AllCharactersViewProtocol: CharactersListProtocol, FavoriteCharacterProtocol {
+    func goToFavoritesCharacterViewController()
 }

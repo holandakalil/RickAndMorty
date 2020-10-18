@@ -8,10 +8,12 @@
 import UIKit
 
 struct Constants {
+    // WS
     static let characterUrl = "https://rickandmortyapi.com/api/character/"
+    static let timeOutTime: TimeInterval = 5
     
+    // UI
     static let listRowHeight: CGFloat = 100
-    
     struct FavoriteImage {
         static let favorited = UIImage(systemName: "star.fill")
         static let unfavorited = UIImage(systemName: "star")

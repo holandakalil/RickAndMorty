@@ -7,7 +7,4 @@
 
 import UIKit
 
-protocol FavoriteListViewProtocol {
-    func updateUI()
-    func goToDetails(of character: CharacterModel, image: UIImage)
-}
+protocol FavoriteListViewProtocol: CharactersListProtocol { }

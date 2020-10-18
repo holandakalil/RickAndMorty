@@ -23,12 +23,17 @@ class FavoritesPresenter {
     func getFavoritedCharacters() {
         let charactersId = Favorites.shared.getFavoritesId()
         webService.getFavoritedCharacters(with: charactersId) { (characters, error) in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.listFavoritesView.errorGetList(withMessage: error.errorDescription)
+                }
+                return
+            }
             
-            // TODO: - Handle error
             if let favCharacters = characters {
                 self.characters = favCharacters
                 DispatchQueue.main.async {
-                    self.listFavoritesView.updateUI()
+                    self.listFavoritesView.successfulGetList()
                 }
             }
         }

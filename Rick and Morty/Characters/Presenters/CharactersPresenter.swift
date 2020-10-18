@@ -28,10 +28,17 @@ class CharactersPresenter {
         if isLoading {
             return
         }
-        
         isLoading = true
         webService.getCharacters(at: page) { (response, error) in
-            // TODO: - Handle error
+            self.isLoading = false
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.listCharactersView.errorGetList(withMessage: error.errorDescription)
+                }
+                return
+            }
+            
             if let allCharacters = response {
                 if allCharacters.results.count == 0 {
                     self.isLastPage = true
@@ -39,10 +46,9 @@ class CharactersPresenter {
                     self.characters.append(contentsOf: allCharacters.results)
                 }
                 DispatchQueue.main.async {
-                    self.listCharactersView.updateUI()
+                    self.listCharactersView.successfulGetList()
                 }
             }
-            self.isLoading = false
             self.page += 1
         }
     }

@@ -60,10 +60,7 @@ class CharacterDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let _ = character else {
-            self.title = "Error..." // TODO: -
-            return
-        }
+        guard let _ = character else { return }
         setupUI()
     }
     

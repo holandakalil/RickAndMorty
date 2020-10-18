@@ -31,11 +31,12 @@ class CharacterWebService: CharacterWebServiceProtocol {
         }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
+        request.timeoutInterval = Constants.timeOutTime
         
         let dataTask = urlSession.dataTask(with: request) { (data, response, error) in
             
-            if let requestError = error {
-                completionHandler(nil, CharacterError.failedRequest(description: requestError.localizedDescription))
+            if let _ = error {
+                completionHandler(nil, CharacterError.failedRequest)
                 return
             }
             

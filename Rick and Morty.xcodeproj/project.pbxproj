@@ -34,6 +34,11 @@
 		EA9D3536253952710068A294 /* Favorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9D3535253952710068A294 /* Favorites.swift */; };
 		EAB614B325396B5700167BE4 /* FavoriteWebServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB614B225396B5700167BE4 /* FavoriteWebServiceTests.swift */; };
 		EAB614B825396B7200167BE4 /* MockFavoriteWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB614B725396B7200167BE4 /* MockFavoriteWebService.swift */; };
+		EAB614C0253A0BC600167BE4 /* FavoritesPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB614BF253A0BC600167BE4 /* FavoritesPresenterTests.swift */; };
+		EAB614C5253A0C2400167BE4 /* MockFavoritesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB614C4253A0C2400167BE4 /* MockFavoritesListView.swift */; };
+		EAB614D3253BF16300167BE4 /* ViewCodeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB614D2253BF16300167BE4 /* ViewCodeProtocol.swift */; };
+		EAB614D8253BFAB700167BE4 /* CharactersListProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB614D7253BFAB700167BE4 /* CharactersListProtocol.swift */; };
+		EAB614FF253BFD7100167BE4 /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB614FE253BFD7100167BE4 /* AlertService.swift */; };
 		EADBCB382534BACA00E8D617 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADBCB372534BACA00E8D617 /* MockURLProtocol.swift */; };
 		EADBCB402534DAAB00E8D617 /* CharacterResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADBCB3F2534DAAB00E8D617 /* CharacterResponseModel.swift */; };
 		EADBCB692534DE4A00E8D617 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADBCB682534DE4A00E8D617 /* Constants.swift */; };
@@ -95,6 +100,11 @@
 		EA9D3535253952710068A294 /* Favorites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorites.swift; sourceTree = "<group>"; };
 		EAB614B225396B5700167BE4 /* FavoriteWebServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteWebServiceTests.swift; sourceTree = "<group>"; };
 		EAB614B725396B7200167BE4 /* MockFavoriteWebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFavoriteWebService.swift; sourceTree = "<group>"; };
+		EAB614BF253A0BC600167BE4 /* FavoritesPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPresenterTests.swift; sourceTree = "<group>"; };
+		EAB614C4253A0C2400167BE4 /* MockFavoritesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFavoritesListView.swift; sourceTree = "<group>"; };
+		EAB614D2253BF16300167BE4 /* ViewCodeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCodeProtocol.swift; sourceTree = "<group>"; };
+		EAB614D7253BFAB700167BE4 /* CharactersListProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListProtocol.swift; sourceTree = "<group>"; };
+		EAB614FE253BFD7100167BE4 /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
 		EADBCB372534BACA00E8D617 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		EADBCB3F2534DAAB00E8D617 /* CharacterResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterResponseModel.swift; sourceTree = "<group>"; };
 		EADBCB682534DE4A00E8D617 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -233,8 +243,10 @@
 		EADBCB2B2534096E00E8D617 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				EAB614D2253BF16300167BE4 /* ViewCodeProtocol.swift */,
 				EADBCB772535322A00E8D617 /* CharacterWebServiceProtocol.swift */,
 				EA513F6D2539439600F89661 /* FavoritesWebServiceProtocol.swift */,
+				EAB614D7253BFAB700167BE4 /* CharactersListProtocol.swift */,
 				EA401FA52536A9EE00BA7917 /* AllCharactersViewProtocol.swift */,
 				EA513F722539456E00F89661 /* FavoriteListViewProtocol.swift */,
 				EA513F4D2538C6DE00F89661 /* FavoriteCharacterProtocol.swift */,
@@ -256,6 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				EA401FB92536ABA900BA7917 /* CharactersPresenterTests.swift */,
+				EAB614BF253A0BC600167BE4 /* FavoritesPresenterTests.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -290,6 +303,7 @@
 				EADBCB682534DE4A00E8D617 /* Constants.swift */,
 				EA401F8A2536896700BA7917 /* UIImageLoader.swift */,
 				EA401F8F2536897A00BA7917 /* UIImageView+Ext.swift */,
+				EAB614FE253BFD7100167BE4 /* AlertService.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -301,6 +315,7 @@
 				EA401FB42536AAC400BA7917 /* MockCharacterWebService.swift */,
 				EAB614B725396B7200167BE4 /* MockFavoriteWebService.swift */,
 				EA513F07253885F200F89661 /* MockAllCharacterView.swift */,
+				EAB614C4253A0C2400167BE4 /* MockFavoritesListView.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -442,11 +457,14 @@
 				EA513F732539456E00F89661 /* FavoriteListViewProtocol.swift in Sources */,
 				EA513F4E2538C6DE00F89661 /* FavoriteCharacterProtocol.swift in Sources */,
 				EADBCB692534DE4A00E8D617 /* Constants.swift in Sources */,
+				EAB614FF253BFD7100167BE4 /* AlertService.swift in Sources */,
 				EA401F8B2536896700BA7917 /* UIImageLoader.swift in Sources */,
 				EADBCB82253535C300E8D617 /* CharacterError.swift in Sources */,
 				EADBCB402534DAAB00E8D617 /* CharacterResponseModel.swift in Sources */,
 				EA513F492538C2D600F89661 /* CharacterDetailViewController.swift in Sources */,
+				EAB614D8253BFAB700167BE4 /* CharactersListProtocol.swift in Sources */,
 				EA9D3536253952710068A294 /* Favorites.swift in Sources */,
+				EAB614D3253BF16300167BE4 /* ViewCodeProtocol.swift in Sources */,
 				EA401FB02536AA5400BA7917 /* CharactersPresenter.swift in Sources */,
 				EA513F612539405F00F89661 /* FavoritesPresenter.swift in Sources */,
 				EA19BE8E2533F31800395E8C /* AppDelegate.swift in Sources */,
@@ -466,6 +484,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAB614C5253A0C2400167BE4 /* MockFavoritesListView.swift in Sources */,
+				EAB614C0253A0BC600167BE4 /* FavoritesPresenterTests.swift in Sources */,
 				EAB614B825396B7200167BE4 /* MockFavoriteWebService.swift in Sources */,
 				EADBCB6E25352F9400E8D617 /* CharacterWebServiceTests.swift in Sources */,
 				EADBCB382534BACA00E8D617 /* MockURLProtocol.swift in Sources */,

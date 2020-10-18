@@ -7,18 +7,15 @@
 
 import Foundation
 
-enum CharacterError: LocalizedError, CustomNSError, Equatable {
-    
+enum CharacterError: LocalizedError, Equatable {
     case invalidResponseModel
     case invalidRequestURLString
-    case failedRequest(description: String)
+    case failedRequest
     
-    var errorDescription: String? {
+    var errorDescription: String {
         switch self {
-        case .failedRequest(let description):
-            return description
-        case .invalidResponseModel, .invalidRequestURLString:
-            return ""
+        case .failedRequest, .invalidResponseModel, .invalidRequestURLString:
+            return "Houve um erro 😰"
         }
     }
 }

@@ -78,12 +78,18 @@ extension FavoritesCharactersViewController: UITableViewDelegate, UITableViewDat
 
 // MARK: - AllCharactersViewProtocol
 extension FavoritesCharactersViewController: FavoriteListViewProtocol {
-    func updateUI() {
+    func successfulGetList() {
         self.listTableView.tableFooterView = UIView()
         self.listTableView.reloadData()
     }
     
-    func goToDetails(of character: CharacterModel, image: UIImage) {
+    func errorGetList(withMessage message: String) {
+        AlertService.alert(in: self, title: "Ops!", message: message, actionTitle: "Tentar novamente") {
+            self.favoritesPresenter.getFavoritedCharacters()
+        }
+    }
+    
+    func goToDetails(of character: CharacterModel, image: UIImage?) {
         let detailsViewController = CharacterDetailViewController()
         detailsViewController.character = character
         detailsViewController.characterImage = image
